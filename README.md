@@ -47,7 +47,7 @@ sequences to protein database
         ◦ Prodigal
         ◦ Diamond
 
-###Databases
+### Databases
 
 SeqDex needs databases to obtain taxonomic affiliations. In detail, two are mandatory: a nucleotidic database, 
 either NCBI nt or a custom made database in blast format with NCBI titles; RDP bacterial 16S (unaligned), 
