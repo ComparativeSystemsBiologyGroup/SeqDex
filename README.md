@@ -53,10 +53,10 @@ SeqDex needs databases to obtain taxonomic affiliations. In detail, two are mand
 either NCBI nt or a custom made database in blast format with NCBI titles; RDP bacterial 16S (unaligned), 
 both the fasta file and the blast format database. If you wish to use protein, also a protein database, either nr NCBI or a 
 custom database with NCBI titles, in diamond format. Nr NCBI database is available only in blast format, but to improve 
-computational time, we choose not to use blastp. So, you have to downloads the fasta format and then 
-run diamond makedb --in nr.faa -d nr to obtain the database in the needed format.
+computational time, we choose not to use blastp. 
 
 ## Running
+
 SeqDex needs two input files: contigs file resulting from assembly (fasta format)
 and the alignment file obtained through alignment of the assembly reads to the contigs (sam format). 
 You can choose which program use: we tested SeqDex by assembling with SPADes and mapping using Bowtie, but it needs just an 
@@ -67,7 +67,8 @@ alignment file in sam format and assembly in fasta format.
 To run SeqDex first open the SeqDex.sh file with you text editor to insert needed path to nucleotide, protein, 16S databases and 
 homefolder of SeqDex. If you wish, you can save the sh file with another name, just do not forget to rerun chmod command first.
 Then copy the sh in the folder where you want to run SeqDex and just run the command below 
-./SeqDex.sh basename_alignment basename_contig
+
+    ./SeqDex.sh basename_alignment basename_contig
 
 This will run SeqDex by using:
     • nucleotidic taxonomic affiliations
@@ -80,7 +81,10 @@ This will run SeqDex by using:
 You can run SeqDex by using also proteic taxonomic affiliation and changing machine learning algorithm by modifying TAX and MLALG
 variables in SeqDex.sh. Also, the R scripts are highly flexible and allow to run iteratively the machine learning predictive step 
 first to perform the final clustering. To do so, please first read the manual and/or run in bash terminal 
-Rscript name_script.R -h to see the list of all available option for each R script of SeqDex. 
+    
+    Rscript name_script.R -h 
+    
+to see the list of all available option for each R script of SeqDex. 
 Then, you can choose to modify the SeqDex.sh file or to run the R scripts independently.
 
 ## Output
