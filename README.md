@@ -77,8 +77,9 @@ This will run SeqDex by using:
 
 ### Custom Run:
 
-You can run SeqDex by using also proteic taxonomic affiliation and changing machine learning algorithm by modifying TAX and MLALG
-variables in SeqDex.sh. Also, the R scripts are highly flexible and allow to run iteratively the machine learning predictive step 
+You can run SeqDex by using also proteic taxonomic affiliation and changing machine learning algorithm 
+by modifying `TAX` and `MLALG` variables in SeqDex.sh. 
+Also, the R scripts are highly flexible and allow to run iteratively the machine learning predictive step 
 first to perform the final clustering. To do so, please first read the manual and/or run in bash terminal 
     
     Rscript name_script.R -h 
@@ -89,6 +90,5 @@ Then, you can choose to modify the SeqDex.sh file or to run the R scripts indepe
 ## Output
 
 SeqDex will produce various files. Most of them are used to deconvolving sequences. 
-Sequences of putative target endosymbiont are listed in fasta file ClusteringOutput/OutputClustering.fasta
-
-It contains only the sequences of the cluster that contains the 16S rRNA of interest.
+Sequences of putative target symbiont are listed in fasta file `ClusteringOutput/OutputClustering.fasta`
+It contains the sequences in fasta format of the cluster that contains the 16S rRNA of interest.
