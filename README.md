@@ -70,10 +70,10 @@ Then copy the sh in the folder where you want to run SeqDex and just run the com
     ./SeqDex.sh basename_alignment basename_contig
 
 This will run SeqDex by using:
-    • nucleotidic taxonomic affiliations
-    • 3-mers frequencies
-    • SVM and RF machine learning algorithm only at superkingdom taxonomic level
-    • Clustering by searching for Alphaproteobacteria 16S gene with higher coverage
+* nucleotidic taxonomic affiliations
+* 3-mers frequencies
+* SVM and RF machine learning algorithm only at superkingdom taxonomic level
+* Clustering by searching for Alphaproteobacteria 16S gene with higher coverage
 
 ### Custom Run:
 
