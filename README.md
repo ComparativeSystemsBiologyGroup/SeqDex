@@ -12,39 +12,39 @@ Inside the SeqDex folder
 ## Dependencies
 
 ### Mandatory:
-- Bash:
-    -- Samtools
-    ◦ Bedtools
-    ◦ NCBI-BLAST+
-    ◦ Barrnap
-    ◦ Seqtk
-• R package:
-    ◦ Taxonomizr
-        ▪ See vignette at https://cran.r-project.org/web/packages/taxonomizr/vignettes/usage.html . 
+* Bash:
+    * Samtools
+    * Bedtools
+    * NCBI-BLAST+
+    * Barrnap
+    * Seqtk
+* R package:
+    * Taxonomizr
+        * See vignette at https://cran.r-project.org/web/packages/taxonomizr/vignettes/usage.html . 
           SeqDex needs the accessionTaxa.sql file, so follow the instruction to download it. 
-          Note that the command prepareDatabase(‘accessionTaxa.sql’) only downloads 
+          Note that the command `prepareDatabase(‘accessionTaxa.sql’)` only downloads 
           nucleotide accession information of NCBI. If you wish to use SeqDex using also 
           proteic taxonomic affiliations, then follow the Manual preparation of database 
           instructions to download a complete accessionTaxa.sql file.
-    ◦ Seqinr
-    ◦ randomForest
-    ◦ e1071
-    ◦ Uwot
-    ◦ Dbscan
-    ◦ Parallel
-    ◦ doParallel
-    ◦ Foreach
-    ◦ Optparse
-    ◦ Ggplot2
-    ◦ igraph
+    * Seqinr
+    * randomForest
+    * e1071
+    * Uwot
+    * Dbscan
+    * Parallel
+    * doParallel
+    * Foreach
+    * Optparse
+    * Ggplot2
+    * igraph
 
 ### Optional:
 
 These dependences need to be installed if you wish to run SeqDex using also using taxonomic affiliation obtained by align 
 sequences to protein database
-• Bash
-    ◦ Prodigal
-    ◦ Diamond
+* Bash
+    * Prodigal
+    * Diamond
 
 ### Databases
 
