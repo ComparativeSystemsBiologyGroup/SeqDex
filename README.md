@@ -12,8 +12,8 @@ Inside the SeqDex folder
 ## Dependencies
 
 ### Mandatory:
-• Bash:
-    ◦ Samtools
+- Bash:
+    -- Samtools
     ◦ Bedtools
     ◦ NCBI-BLAST+
     ◦ Barrnap
