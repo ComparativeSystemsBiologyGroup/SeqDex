@@ -75,7 +75,9 @@ mergedTaxonomy <- mergedTaxonomy[which(mergedTaxonomy[,which(tolower(colnames(me
 completeTable <- merge(x=gckCovTable, y=mergedTaxonomy, #then merge the two tables
                        by= "Contig", all.x =TRUE) #merge put NA's where there is not the value
 completeTable[is.na(completeTable)] <-"NoBlastHit" #Substitute NA's with another variabe name
-coverage16s <- merge(rRNA16sTaxonomy2[,c(2:4, which(colnames(rRNA16sTaxonomy2)=="superkingdom"), which(colnames(rRNA16sTaxonomy2)=="class"))], completeTable[,c(1,2,35,36)], by = "Contig", all.x = T)
+coverage16s <- merge(rRNA16sTaxonomy2[,c(2:4, which(colnames(rRNA16sTaxonomy2)=="superkingdom"), 
+                                         which(colnames(rRNA16sTaxonomy2)=="class"))], 
+                     completeTable[,c(1,2,(ncol(completeTable)-3),(ncol(completeTable)-2))], by = "Contig", all.x = T)
 
 #UMAP on Selected target table--------------------------------------------------------------------------------------
 #TAXA = which(colnames(completeTableNum)==taxa.name)
