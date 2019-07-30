@@ -226,8 +226,8 @@ for (i in 1:length(TAXAlevel)) {
     DiamondTDFilt75 <- DiamondFiltTD[which(DiamondFiltTD$TaxonDensity>=opt$TaxonDensity),]
     TaxonomyAll <- merge(BTDallFilt75, DiamondTDFilt75, by = "Contig", all = FALSE, suffixes = c("B", "D"))
     
-    BlastTaxaNum = which(colnames(TaxonomyAll)==paste(taxonomy.df[TAXAlevel[i],1], "B", sep = ""))
-    DiamondTaxaNum = which(colnames(TaxonomyAll)==paste(taxonomy.df[TAXAlevel[i],1], "D", sep = ""))
+    BlastTaxaNum = which(colnames(TaxonomyAll)==paste(TAXAlevel[i], "B", sep = ""))
+    DiamondTaxaNum = which(colnames(TaxonomyAll)==paste(TAXAlevel[i], "D", sep = ""))
     
     Shared <- TaxonomyAll[which(TaxonomyAll[,BlastTaxaNum]==TaxonomyAll[,DiamondTaxaNum]),]
     TaxonMax <- c(rep(NA, nrow(Shared)))
@@ -237,7 +237,7 @@ for (i in 1:length(TAXAlevel)) {
     Shared<- data.frame(Contig = Shared$Contig,
                         TaxonDensity = TaxonMax,
                         taxa.name = Shared[,BlastTaxaNum], stringsAsFactors = FALSE)
-    colnames(Shared)[3]<-taxonomy.df[TAXAlevel[i],1] 
+    colnames(Shared)[3]<-TAXAlevel[i] 
     
     
     NotSharedB <- BTDallFilt75[-which(BTDallFilt75$Contig %in% Shared$Contig | 
