@@ -93,7 +93,7 @@ colnames(u)<-"membership"
 unames<-rownames(u)
 lcomp<-which(C$csize>=opt$componentSize)
 
-tmpT <- read.table(list.filetaxa[1], sep = "\t", header = T, stringsAsFactors = F)
+tmpT <- read.table(taxa.file[1], sep = "\t", header = T, stringsAsFactors = F)
 
 
 #Data------------------------------------------------------------------------
