@@ -354,7 +354,7 @@ for (j in 1:length(taxa.file)) {
         }
       }
     }
-    h.index <- homoCC/(nrow(compTaxMod)-homoCC)
+    h.index <- homoCC/nrow(compTaxMod)
     print("Homogenety index of the SVM prediction extended with graph based network is:")
     print(h.index)
   
