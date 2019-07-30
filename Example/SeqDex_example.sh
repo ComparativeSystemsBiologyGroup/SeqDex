@@ -342,7 +342,7 @@ if [ $MLALG == "SVM" ]; then
 #--componentSize minimum component size 
 #--mixedComponents maximum proportion of alternative taxonomy over the total to consider the alternative as erroneous and correct/uniform the CC taxonomy
 
-		Rscript "$SCRIPT"/SeqDex/Clustering --modelOutput "${MODELOUTSVM}" --gcCovKmersTable "${KMERSFREQ}" --rRNA16S "${RNA}" --taxonomy "${TAXFILE}"  --network "${NETWORK}" --input "$TYPE" --minContigLen "$MINLENGTH" --targetName "$TRG" --threads "$THREADS" --ncomponents "$NCOMP" --Edges "$EDGES" --VerticesDegree "$VERTICES" --componentSize "$COMPONENTSIZE" --mixedComponents "$MIXEDCOMP" --modelType "$MDL" 
+		Rscript "$SCRIPT"/SeqDex/Clustering.R --modelOutput "${MODELOUTSVM}" --gcCovKmersTable "${KMERSFREQ}" --rRNA16S "${RNA}" --taxonomy "${TAXFILE}"  --network "${NETWORK}" --input "$TYPE" --minContigLen "$MINLENGTH" --targetName "$TRG" --threads "$THREADS" --ncomponents "$NCOMP" --Edges "$EDGES" --VerticesDegree "$VERTICES" --componentSize "$COMPONENTSIZE" --mixedComponents "$MIXEDCOMP" --modelType "$MDL" 
 		seqtk subseq ../"${2}".fasta OutputClustering.txt > OutputClustering.fasta
 		cd ..
 	else
