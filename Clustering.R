@@ -82,7 +82,7 @@ if(grepl(opt$taxonomy, pattern = "TaxonomyIteration.txt")){
 } else {
   if (grepl(opt$taxonomy, pattern = ",")) {
     taxa.file <- tolower(as.character(unlist(strsplit(opt$taxonomy, split = ",", fixed = T))))
-    taxa.file <- taxa.name[which(taxa.file == taxa.name)]
+    taxa.file <- taxa.file[which(taxa.file == taxa.name)]
     taxa.file <- paste("../Taxonomy/", paste(taxa.file, "TaxonomyIteration.txt", sep = ""), sep = "")
   } else {
     taxa.file <- tolower(as.character(opt$taxonomy)) 
@@ -94,7 +94,7 @@ if(grepl(opt$taxonomy, pattern = "TaxonomyIteration.txt")){
 
 #Data------------------------------------------------------------------------
 #for coverage info of the target----------------------------------------------------------
-mergedTaxonomy <-read.table(opt$taxonomy, sep = "\t", stringsAsFactors = F, header = T)
+mergedTaxonomy <-read.table(taxa.file, sep = "\t", stringsAsFactors = F, header = T)
 gckCovTable <- read.table(opt$gcCovKmersTable, sep = "\t", stringsAsFactors = F, header = T)
 gckCovTable <- gckCovTable[which(gckCovTable$length>opt$minContigLen),]
 
