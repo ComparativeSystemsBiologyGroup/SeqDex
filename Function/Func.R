@@ -71,8 +71,8 @@ BlastTaxaAll <- function(table, blast_input, taxa){
   path <- list.files(path= "~", full.names=TRUE,
                      recursive=TRUE,pattern="(accessionTaxa.sql)")
   taxaId<-taxonomizr::accessionToTaxa(Blast2$V2, path) #retiving accession number
-  X=taxonomizr::getTaxonomy(taxaId, path) #get taxonomic affiliation
-  X <- X[,taxa]
+  X=taxonomizr::getTaxonomy(taxaId, path, desiredTaxa = taxa) #get taxonomic affiliation
+  #X <- X[,taxa]
   Blast2[,(ncol(Blast)+1):(ncol(Blast2))] <- X
   colnames(Blast2) <- c(colnames(Blast), colnames(X))
   return(Blast2)
@@ -201,7 +201,9 @@ taxonNumber <- function(table, Taxa, noblast, n){
   }
   table[,x] <- taxonomy
   if (n==1){
-    table <- table[-NoBlastHit,]
+    if(length(NoBlastHit)>0){
+      table <- table[-NoBlastHit,]
+    }
   } else if (n==2){
     NULL
   }
@@ -209,7 +211,7 @@ taxonNumber <- function(table, Taxa, noblast, n){
 }
 
 #SVM--------------------------------------------------------------------------------------------
-SvmModelParIter <- function(table,column, taxa, cost, gamma, scale, cross, cluster, verbose = T ){
+SvmModelParIter <- function(table,column, taxa, cost, gamma, scale, cross, cluster, nmodel, verbose = T ){
   # tic()
   index <- 1:nrow(table)
   testindex <- sample(index, trunc(length(index)/3))
@@ -238,7 +240,7 @@ SvmModelParIter <- function(table,column, taxa, cost, gamma, scale, cross, clust
                             dispersion = unlist(param.tune$dispersion),
                             stringsAsFactors = F)
   
-  svm.model <- foreach::foreach(n=1:100) %dopar% {
+  svm.model <- foreach::foreach(n=1:as.numeric(nmodel)) %dopar% {
     index <- 1:nrow(table)
     testindex <- sample(index, trunc(length(index)/3))
     testset <- table[testindex,]
@@ -262,7 +264,7 @@ SvmModelParIter <- function(table,column, taxa, cost, gamma, scale, cross, clust
   
   parallel::stopCluster(cl)
   
-  for (k in 1:100) {
+  for (k in 1:as.numeric(nmodel)) {
     tmp <- data.frame(true = svm.model[[k]][2], pred = svm.model[[k]][3], length = svm.model[[k]][4],
                       stringsAsFactors = F)
     #tmp <- cbind.data.frame(testset[,c(1, taxa)], tmp)
@@ -348,12 +350,12 @@ predictSVMIter <- function(model, table, column){
 }
 
 #Random Forset function------------------------------------------------------------------------
-RFModelParIter <- function(table,column, taxa, cluster, replace, ntree, verbose = T ){
+RFModelParIter <- function(table,column, taxa, cluster, replace, ntree, nmodel, verbose = T ){
   suppressPackageStartupMessages(library(doParallel, quietly = T))
   cl = parallel::makeCluster(cluster)
   doParallel::registerDoParallel(cl)
   
-  RF.model <- foreach::foreach(n=1:100) %dopar% {
+  RF.model <- foreach::foreach(n=1:as.numeric(nmodel)) %dopar% {
     index <- 1:nrow(table)
     testindex <- sample(index, trunc(length(index)/3))
     testset <- table[testindex,]
@@ -376,7 +378,7 @@ RFModelParIter <- function(table,column, taxa, cluster, replace, ntree, verbose 
   
   parallel::stopCluster(cl)
   
-  for (k in 1:100) {
+  for (k in 1:as.numeric(nmodel)) {
     tmp <- data.frame( true = RF.model[[k]][2], pred = RF.model[[k]][3], length=RF.model[[k]][4],stringsAsFactors = F)
     #tmp <- cbind.data.frame(testset[,c(1, taxa)], tmp)
     pred <- rbind.data.frame(pred, tmp, stringsAsFactors = F)
