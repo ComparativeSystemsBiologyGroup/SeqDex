@@ -63,8 +63,8 @@ alignment file in sam format and assembly in fasta format.
 
 ### Quick Run:
 
-To run SeqDex first open the SeqDex.sh file with you text editor to insert needed path to nucleotide, protein, 16S databases and 
-homefolder of SeqDex. If you wish, you can save the sh file with another name, just do not forget to rerun chmod command first.
+To run SeqDex first open the SeqDex.sh file with you text editor and complete the mandatory variables fields. 
+If you wish, you can save the sh file with another name, just do not forget to rerun chmod command first.
 Then copy the sh in the folder where you want to run SeqDex and just run the command below 
 
     ./SeqDex.sh basename_alignment basename_contig
@@ -73,7 +73,7 @@ This will run SeqDex by using:
 * nucleotidic taxonomic affiliations
 * 3-mers frequencies
 * SVM and RF machine learning algorithm only at superkingdom taxonomic level
-* Clustering by searching for Alphaproteobacteria 16S gene with higher coverage
+* Clustering by searching for provided taxonomic class 16S gene with higher coverage
 
 ### Custom Run:
 
