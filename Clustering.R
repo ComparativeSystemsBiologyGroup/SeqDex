@@ -71,6 +71,7 @@ if(grepl(opt$modelOutput, pattern = "output")){
 }
 #outputTable <- read.table("../SVMoutput/1outputSVM.txt", sep = "\t", stringsAsFactors = F, header = T)
 outputTable <- read.table(out.file, sep = "\t", stringsAsFactors = F, header = T)
+outputTable <- unique(outputTable)
 taxa.name <- colnames(outputTable)[(ncol(outputTable)-1)]
 
 if(grepl(opt$taxonomy, pattern = "TaxonomyIteration.txt")){
@@ -96,22 +97,19 @@ if(grepl(opt$taxonomy, pattern = "TaxonomyIteration.txt")){
 #for coverage info of the target----------------------------------------------------------
 mergedTaxonomy <-read.table(taxa.file, sep = "\t", stringsAsFactors = F, header = T)
 gckCovTable <- read.table(opt$gcCovKmersTable, sep = "\t", stringsAsFactors = F, header = T)
-gckCovTable <- gckCovTable[which(gckCovTable$length>opt$minContigLen),]
-
+gckCovTable <- gckCovTable[which(gckCovTable$length>as.numeric(opt$minContigLen)),]
 rRNA16sTaxonomy2 <- read.table(opt$rRNA16S, sep = "\t", stringsAsFactors = F, header = T)
 rRNA16sTaxonomy2 <- rRNA16sTaxonomy2[which(rRNA16sTaxonomy2$ali_Length>100 ),]
 rRNA16sTaxonomy3 <- data.frame(Contig = rRNA16sTaxonomy2[,2],
                                TaxonDensity = 1,
                                taxa.name = rRNA16sTaxonomy2[,which(tolower(colnames(rRNA16sTaxonomy2))==taxa.name)], stringsAsFactors = F)
 colnames(rRNA16sTaxonomy3)[3] <- taxa.name
-mergedTaxonomy <- rbind.data.frame(mergedTaxonomy,
+mergedTaxonomy <- rbind.data.frame(mergedTaxonomy[-which(mergedTaxonomy$Contig %in% rRNA16sTaxonomy3$Contig),],
                                    rRNA16sTaxonomy3, stringsAsFactors = F)
 mergedTaxonomy <- unique(mergedTaxonomy)
-
 freq <- as.data.frame(table(mergedTaxonomy[,which(tolower(colnames(mergedTaxonomy))==taxa.name)]))
 x <- freq[which(freq$Freq>5),]
 mergedTaxonomy <- mergedTaxonomy[which(mergedTaxonomy[,which(tolower(colnames(mergedTaxonomy))==taxa.name)] %in% x$Var1),]
-
 completeTable <- merge(x=gckCovTable, y=mergedTaxonomy, #then merge the two tables
                        by= "Contig", all.x =TRUE) #merge put NA's where there is not the value
 completeTable[is.na(completeTable)] <-"NoBlastHit" #Substitute NA's with another variabe name
@@ -154,8 +152,9 @@ if (grepl(opt$input, pattern = ",")) {
     }
 }
 
-  
-
+  write.table(umapT.layout, "umapLayout.txt", sep = "\t", quote = F, row.names = F)
+  #write.table(coverage16s, "coverage16s.txt", sep = "\t", quote = F, row.names = F)
+#umapT.layout <- read.table("umapLayout.txt", sep = "\t", header = T, stringsAsFactors = F)
 
 #kNNdistplot(umapT.layout, k=round(log(nrow(outputTable))))
 y <- kNNdist(umapT.layout, k=round(log(nrow(outputTable))))
@@ -176,13 +175,13 @@ cl.dbscan <- dbscan(umapT.layout,
 umapT.layout$group <- cl.dbscan$cluster
 umapT.layout$Contig <- outputTable$Contig
 umapT.layout$percent <- outputTable$percent
-
+write.table(umapT.layout, "umapCluster.txt", sep = "\t", quote = F, row.names = F)
 ggplot(umapT.layout, aes(x=umapT.layout[,1], y = umapT.layout[,2], 
                          color = as.character(umapT.layout$group)
                          )) + geom_point() +
  scale_colour_discrete(name="Clusters")
 
-
+write.table(umapT.layout, "umapLayout2.txt", sep = "\t", quote = F, row.names = F)
 
 Ngroup <- umapT.layout[which(umapT.layout$Contig==coverage16s[which(coverage16s$covLen==max(coverage16s[which(coverage16s$class==opt$targetName),]$covLen, na.rm = T)),]$Contig),]$group
 print(cl.dbscan)
@@ -241,8 +240,9 @@ for (l in 1:length(lcomp)) {
 predCCcomp <- data.frame(Contig = rownames(u), 
                          CC = u$membership, stringsAsFactors = F)
 predCCcomp <- merge(predCCcomp, compTax, by.x="CC", by.y="comp", all.x = TRUE)
+write.table(predCCcomp, "predCCcomp.txt", sep = "\t", quote = F, row.names = F)
 predCCcomp <- merge(predCCcomp, umapT.layout, by = "Contig")
-
+write.table(predCCcomp, "predCCcomp2.txt", sep = "\t", quote = F, row.names = F)
 modTaxPredCC <- NULL
 
 for(z in lcomp){
@@ -265,7 +265,9 @@ for(z in lcomp){
 }
 
 
-predTable <- merge(umapT.layout[,-which(colnames(umapT.layout)=="group")], modTaxPredCC[,c(1:2, (ncol(modTaxPredCC)-3):(ncol(modTaxPredCC)-1))], by = c("Contig", "V1", "V2"),
+predTable <- merge(umapT.layout[,-which(colnames(umapT.layout)=="group")], 
+                   modTaxPredCC[,c(1:2, (ncol(modTaxPredCC)-(opt$ncomponents+1)):(ncol(modTaxPredCC)-1))], 
+                   by = sort(colnames(umapT.layout)[-which(colnames(umapT.layout)=="group" | colnames(umapT.layout)=="percent")]),
                    all.y = TRUE)
 umapMod <- umapT.layout[-which(umapT.layout$Contig %in% predTable$Contig),]
 umapMod$CC <- rep(-1, nrow(umapMod))
@@ -291,8 +293,8 @@ print(h.index)
 
 outputContig <- unique(c(extUmap[which(extUmap$group==Ngroup),]$Contig, 
                   unames[which(u$membership %in% unique(extUmap[which(extUmap$group==Ngroup),]$CC))]))
-write.table(extUmap, "extendedClusteringCC.txt", sep = "\t", quote = F, row.names = F)
-write.table(outputContig, "OutputClustering.txt", sep = "\t", quote = F, row.names = F, col.names = F)
+write.table(extUmap, "extendedClusteringCC2.txt", sep = "\t", quote = F, row.names = F)
+write.table(outputContig, "OutputClustering2.txt", sep = "\t", quote = F, row.names = F, col.names = F)
 
 cl <- cl.dbscan[["cluster"]]
 clT <- table(cl)

@@ -237,7 +237,7 @@ for (i in 1:length(TAXAlevel)) {
     Shared<- data.frame(Contig = Shared$Contig,
                         TaxonDensity = TaxonMax,
                         taxa.name = Shared[,BlastTaxaNum], stringsAsFactors = FALSE)
-    colnames(Shared)[3]<-TAXAlevel[i] 
+    colnames(Shared)[3]<-TAXAlevel[i]
     
     
     NotSharedB <- BTDallFilt75[-which(BTDallFilt75$Contig %in% Shared$Contig | 

@@ -427,7 +427,7 @@ elif [ $MLALG == "BOTH" ]; then
 #--componentSize minimum component size 
 #--mixedComponents maximum proportion of alternative taxonomy over the total to consider the alternative as erroneous and correct/uniform the CC taxonomy
 #--verbose set to true to print on the terminal performance statistics and percentage of error committed by SVM model 
-	Rscript "$SCRIPT"/SeqDex/SVM.R --gcCovKmersTable "${KMERSFREQ}" --rRNA16S "${RNA}" --taxonomy "${TAXFILE}" --network "${NETWORK}" --cross "$CROSS" --cost "$COST" --gamma "$GAMMA" --scale "$SCALE" --minContigLen "$MINLENGTH" --targetName "$TRG" --TaxaName "$ITER" --threads "$THREADS" --Edges "$EDGES" --VerticesDegree "$VERTICES" --componentSize "$COMPONENTSIZE" --mixedComponents "$MIXEDCOMP" --verbose "$VERBOSE"
+	Rscript "$SCRIPT"/SeqDex/SVM.R --gcCovKmersTable "${KMERSFREQ}" --rRNA16S "${RNA}" --taxonomy "${TAXFILE}" --network "${NETWORK}" --cross "$CROSS" --cost "$COST" --gamma "$GAMMA" --scale "$SCALE" --minContigLen "$MINLENGTH" --targetName "$ITERTRG" --TaxaName "$ITER" --threads "$THREADS" --Edges "$EDGES" --VerticesDegree "$VERTICES" --componentSize "$COMPONENTSIZE" --mixedComponents "$MIXEDCOMP" --verbose "$VERBOSE"
 	cd ..
 	if [ $CLUSTER == "yes" ]; then
 		echo "umap e dbscan on SVM"
@@ -480,7 +480,7 @@ elif [ $MLALG == "BOTH" ]; then
 #--componentSize minimum component size 
 #--mixedComponents maximum proportion of alternative taxonomy over the total to consider the alternative as erroneous and correct/uniform the CC taxonomy
 #--verbose set to true to print on the terminal performance statistics and percentage of error committed by RF model 
-	Rscript "$SCRIPT"/SeqDex/RF.R --gcCovKmersTable "${KMERSFREQ}" --rRNA16S "${RNA}" --taxonomy "${TAXFILE}" --network "${NETWORK}" --minContigLen  "$MINLENGTH" --targetName "$TRG" --TaxaName "$ITER" --replace "$REPLACE" --ntree "$NTREE" --threads "$THREADS" --Edges "$EDGES" --VerticesDegree "$VERTICES" --componentSize "$COMPONENTSIZE" --mixedComponents "$MIXEDCOMP" --verbose "$VERBOSE"
+	Rscript "$SCRIPT"/SeqDex/RF.R --gcCovKmersTable "${KMERSFREQ}" --rRNA16S "${RNA}" --taxonomy "${TAXFILE}" --network "${NETWORK}" --minContigLen  "$MINLENGTH" --targetName "$ITERTRG" --TaxaName "$ITER" --replace "$REPLACE" --ntree "$NTREE" --threads "$THREADS" --Edges "$EDGES" --VerticesDegree "$VERTICES" --componentSize "$COMPONENTSIZE" --mixedComponents "$MIXEDCOMP" --verbose "$VERBOSE"
 	cd ..
 	if [ $CLUSTER == "yes" ]; then
 
@@ -510,7 +510,7 @@ elif [ $MLALG == "BOTH" ]; then
 	else
 		cd RFoutput
 		A=$(echo "$ITER" | rev | cut -f1 -d "," | rev)
-		A+="OutpuRF.txt"
+		A+="OutputRF.txt"
 		cut -f1 "${A}" > 1outputRF_names.txt
 		seqtk subseq ../"${2}".fasta 1outputRF_names.txt > 1outputRF_contigs.fasta
 		cd ..

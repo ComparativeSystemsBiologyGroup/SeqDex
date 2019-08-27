@@ -13,7 +13,7 @@ option_list <- list(
               help = "rRNA16S.R output table in path/file.ext - [default %default]"),
   make_option(c("-t", "--taxonomy"), action = "store", type = "character", default = NA,
               help = "Taxonomy.R output/s in path/file.ext. If multiple iteration performed,\n\t\t\t then a ordered comma separated list of path/file.ext must be provided \n\t\t [default %default]"),
-  make_option(c("-R", "--network"), action = "store", type = "character", default = "NetTax/contigNet.txt",
+  make_option(c("-R", "--network"), action = "store", type = "character", default = "../Coverage/contigNet.txt",
               help = "reads based graph network path/filename.ext - [default %default]"),
   make_option(c("-l", "--minContigLen"), action = "store", type = "integer", default = 1000, 
               help = "minimum contig length considered - [default %default]"),
@@ -109,7 +109,7 @@ for (j in 1:length(taxa.file)) {
                                  TaxonDensity = 1,
                                  taxa.name = rRNA16sTaxonomy2[,which(tolower(colnames(rRNA16sTaxonomy2))==taxa.name[j])], stringsAsFactors = F)
   colnames(rRNA16sTaxonomy3)[3] <- taxa.name[j]
-  mergedTaxonomy <- rbind.data.frame(mergedTaxonomy,
+  mergedTaxonomy <- rbind.data.frame(mergedTaxonomy[-which(mergedTaxonomy$Contig %in% rRNA16sTaxonomy3$Contig),],
                                      rRNA16sTaxonomy3, stringsAsFactors = F)
   mergedTaxonomy <- unique(mergedTaxonomy)
   
@@ -299,7 +299,7 @@ for (j in 1:length(taxa.file)) {
       tableNB[k,c(TAXA, (TAXA+1))] <- c("misclassified", "misclassified")
     }
   }
-  
+  tableNB <- unique(tableNB)
   completeTableNum$percent <- rep(-1, nrow(completeTableNum))
   output <- rbind.data.frame(tableNB[which(tableNB[,taxaColumn]==BacNum),],
                              tableNB[which(tableNB[,taxaColumn]=="misclassified"),],

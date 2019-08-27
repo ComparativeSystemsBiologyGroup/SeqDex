@@ -125,7 +125,7 @@ for (j in 1:length(taxa.file)) {
                                  TaxonDensity = 1,
                                  taxa.name = rRNA16sTaxonomy2[,which(tolower(colnames(rRNA16sTaxonomy2))==taxa.name[j])], stringsAsFactors = F)
   colnames(rRNA16sTaxonomy3)[3] <- taxa.name[j]
-  mergedTaxonomy <- rbind.data.frame(mergedTaxonomy,
+  mergedTaxonomy <- rbind.data.frame(mergedTaxonomy[-which(mergedTaxonomy$Contig %in% rRNA16sTaxonomy3$Contig),],
                                      rRNA16sTaxonomy3, stringsAsFactors = F)
   mergedTaxonomy <- unique(mergedTaxonomy)
   
@@ -335,7 +335,7 @@ for (j in 1:length(taxa.file)) {
       tableNB[k,c(TAXA, (TAXA+1))] <- c("misclassified", "misclassified")
     }
   }
-  
+  tableNB <- unique(tableNB)
   completeTableNum <- cbind.data.frame(completeTableNum, percent = rep(-1, nrow(completeTableNum)))
   output <- rbind.data.frame(tableNB[which(tableNB[,taxaColumn]==BacNum),],
                              tableNB[which(tableNB[,taxaColumn]=="misclassified"),],
