@@ -349,8 +349,8 @@ if [ $MLALG == "SVM" ]; then
 		cd SVMoutput
 		A=$(echo "$ITER" | rev | cut -f1 -d "," | rev)
 		A+="OutputSVM.txt"
-		cut -f1 "${A}" > 1outputSVM_names.txt
-		seqtk subseq ../"${2}".fasta 1outputSVM_names.txt > 1outputSVM_contigs.fasta
+		cut -f1 "${A}" > outputSVM_names.txt
+		seqtk subseq ../"${2}".fasta outputSVM_names.txt > outputSVM_contigs.fasta
 		cd ..
 	fi
 
@@ -404,8 +404,8 @@ elif [ $MLALG == "RF" ]; then
 		cd RFoutput
 		A=$(echo "$ITER" | rev | cut -f1 -d "," | rev)
 		A+="OutputRF.txt"
-		cut -f1 "${A}" > 1outputRF_names.txt
-		seqtk subseq ../"${2}".fasta 1outputRF_names.txt > 1outputRF_contigs.fasta
+		cut -f1 "${A}" > outputRF_names.txt
+		seqtk subseq ../"${2}".fasta outputRF_names.txt > outputRF_contigs.fasta
 		cd ..
 	fi
 elif [ $MLALG == "BOTH" ]; then
@@ -456,8 +456,8 @@ elif [ $MLALG == "BOTH" ]; then
 		cd SVMoutput
 		A=$(echo "$ITER" | rev | cut -f1 -d "," | rev)
 		A+="OutputSVM.txt"
-		cut -f1 "${A}" > 1outputSVM_names.txt
-		seqtk subseq ../"${2}".fasta 1outputSVM_names.txt > 1outputSVM_contigs.fasta
+		cut -f1 "${A}" > outputSVM_names.txt
+		seqtk subseq ../"${2}".fasta outputSVM_names.txt > outputSVM_contigs.fasta
 		cd ..
 	fi
 
@@ -511,8 +511,8 @@ elif [ $MLALG == "BOTH" ]; then
 		cd RFoutput
 		A=$(echo "$ITER" | rev | cut -f1 -d "," | rev)
 		A+="OutputRF.txt"
-		cut -f1 "${A}" > 1outputRF_names.txt
-		seqtk subseq ../"${2}".fasta 1outputRF_names.txt > 1outputRF_contigs.fasta
+		cut -f1 "${A}" > outputRF_names.txt
+		seqtk subseq ../"${2}".fasta outputRF_names.txt > outputRF_contigs.fasta
 		cd ..
 	fi
 fi
