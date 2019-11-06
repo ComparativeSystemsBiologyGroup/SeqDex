@@ -226,7 +226,7 @@ if [ $TAX == "NTNR" ]; then
 		echo "The diamond output does not exist. Running prodigal and diamond..."
 		#blastn of the contigs file vs the database $NTI
 		prodigal -i ../"${2}".fasta -a prodigalContigs.faa -f gff -p meta -q -o ProdContigs
-diamond blastp --db "$NR"/"${NRI}" --query prodigalContigs.faa --out ContigsvsNr.txt --outfmt 6 qseqid qlen sseqid slen qstart qend sstart send evalue bitscore length pident gaps staxids stitle qcovhsp -p "$THREADS" --quiet
+diamond blastp --db "$NR"/"${NRI}" --query prodigalContigs.faa --out ContigsvsNr.txt --outfmt 6 qseqid qlen sseqid slen qstart qend sstart send evalue bitscore length pident gaps stitle qcovhsp -p "$THREADS" --quiet
 		cut -f1,2,3,4,5,6,7,8,9,10,11,12,13,14,16 ContigsvsNr.txt > ContigsvsNr_mod.txt 
 	fi
 fi
