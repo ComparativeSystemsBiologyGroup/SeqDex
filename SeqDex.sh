@@ -137,10 +137,10 @@ NCOMP=2
 if [ $MLALG == "SVM" ]; then
 	MDL=SVM
 elif [ $MLALG == "RF" ]; then
-	MLD=RF
+	MDL=RF
 elif [ $MLALG == "BOTH" ]; then
-	MLD1=SVM
-	MLD2=RF
+	MDL1=SVM
+	MDL2=RF
 fi
 
 
